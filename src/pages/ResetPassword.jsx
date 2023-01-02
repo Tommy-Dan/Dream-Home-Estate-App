@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import Oauth from '../components/Oauth';
-import {MdAccountCircle} from 'react-icons/md'
+import {MdAccountCircle} from 'react-icons/md';
+import { toast } from 'react-toastify';
+import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
 
 
 function ResetPassword() {
@@ -11,6 +13,16 @@ function ResetPassword() {
 
   function onChange(e){
     setEmail(e.target.value);
+  }
+  async function onSubmit(e){
+    e.preventDefault();
+    try {
+      const auth = getAuth()
+      await sendPasswordResetEmail(auth, email)
+      toast.success("Email was sent")
+    } catch (error) {
+      toast.error("Couldn't send reset password!")
+    }
   }
   return (
     <section>
@@ -25,7 +37,7 @@ function ResetPassword() {
           <div className='flex items-center justify-center'>
             <MdAccountCircle className='text-7xl rounded-full mb-2' />
           </div>
-          <form>
+          <form onSubmit={onSubmit}>
             <label>Email</label>
             <input 
                className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white

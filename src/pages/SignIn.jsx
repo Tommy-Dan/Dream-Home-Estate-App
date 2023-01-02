@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Oauth from '../components/Oauth';
-import {MdAccountCircle} from 'react-icons/md'
+import {MdAccountCircle} from 'react-icons/md';
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { toast } from "react-toastify";
+
 
 
 function SignIn() {
@@ -13,11 +16,28 @@ function SignIn() {
     password: "",
   });
   const {email, password} = formData;
+  const navigate = useNavigate();
   function onChange(e){
     setFormData((prevState) =>({
       ...prevState,
       [e.target.id]: e.target.value
-    }))
+    }));
+  }
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if(userCredential.user) {
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Bad user credentials");
+    }
   }
   return (
     <section>
@@ -32,7 +52,7 @@ function SignIn() {
           <div className='flex items-center justify-center'>
             <MdAccountCircle className='text-7xl rounded-full mb-2' />
           </div>
-          <form>
+          <form onSubmit={onSubmit}>
             <label>Email</label>
             <input 
                className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white
