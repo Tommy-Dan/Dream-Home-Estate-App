@@ -18,9 +18,13 @@ function App() {
        <Navbar />
        <Routes>
         <Route path='/' element={<Home />}></Route>
+
+          {/* protected route start*/}
         <Route path='/profile' element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
-        </Route>  
+        </Route> 
+          {/* protected route end*/} 
+          
         <Route path='/sign-in' element={<SignIn />}></Route>
         <Route path='/sign-up' element={<SignUp />}></Route>
         <Route path='/reset-password' element={<ResetPassword />}></Route>
