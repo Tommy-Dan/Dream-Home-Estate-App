@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from "../firebase";
 import { async } from '@firebase/util';
+import { GiHouseKeys } from 'react-icons/gi';
+
 
 
 
@@ -99,6 +101,15 @@ function Profile() {
             </p>
           </div>
         </form>
+        <button type='submit' className='w-[60%] bg-blue-600 text-white uppercase ml-20
+                      px-7 py-3 text-sm font-medium rounded shadow-md hover:bg-blue-700
+                      transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800'
+        >
+          <Link to="/create-card" className='flex justify-center items-center'>
+            <GiHouseKeys  className='mr-2 text-3xl rounded-full p-1 border-2'/>
+            For Sale or Rent
+          </Link>
+        </button>
       </div>
      </section>
     </>
